@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<div class="centerAlign">
+		<canvas id="statistics" width=730 height=450></canvas>
+		<canvas id="motion" width=900 height=650></canvas>
+		<canvas id="infectionOutline" width=900 height=650></canvas>
+		<canvas id="background" width=1530 height=730></canvas>
+	</div>
+	<script src="chocolate.js"></script>
+	<link rel="stylesheet" href="chocolate.css">
+</head>
+<body>
+	<script>
+		panelOutline();
+	</script>
+	<div class="centerAlign">
+		<table class="controlPanelLabel">
+			<tr class="labelall PoI"><td class="lettered">0</td><td class="lettered right">1</td></tr>
+			<tr class="labelall RoI"><td class="lettered">Min</td><td class="lettered right">Max</td></tr>
+			<tr class="labelall RoT hide" id="locationFrequency2"><td class="lettered">Slow</td><td class="lettered right">Fast</td></tr>
+			<tr class="labelall IS hide" id="isolationSpeed2"><td class="lettered">Slow</td><td class="lettered right">Fast</td></tr>
+			<tr class="labelall PoA hide" id="asymptomatic2"><td class="lettered">0</td><td class="lettered right">1</td></tr>
+			<tr class="labelall RoM hide" id="intercitymovement2"><td class="lettered">Slow</td><td class="lettered right">Fast</td></tr>
+
+		</table>
+		<table class="controlPanel">
+			<tr><td class="control" colspan="2">Parameters: &#x2699</td></tr>
+			<div>
+				<tr><td class="title" colspan="2"><u>Population:</u><input type="number" id="initialPopulation" class="numberInput" min="1" max="2500" value="1000"></td></tr>
+				<tr><td class="title" colspan="2"><u>Initial Cases:</u><input type="number" id="infectedPopulation" class="numberInput" min="1" max="100" value="1"></td></tr>
+			</div><div>
+				<tr><td colspan="2" class="subtitle toppadding">Probabily of Infection:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" id="infectionP" min="0" max="10" value="2"></td></tr>
+				<tr><td colspan="2" class="subtitle toppadding">Radius of Infection:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" id="infectionRadius" min="1" max="5" value="2"></td></tr>
+			</div><div>
+				<tr><td class="title"><u>Central Location:</u></td><td>
+				<label class="switch"><input type="checkbox" id="centralLocation" onclick="centerMarket()"><span class="slider round"></span></label></td></td></tr>
+				<tr><td colspan="2" class="subtitle toppadding hide" id="locationFrequency1">Rate of Travel:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" min="0" max="10" value="6" id="locationFrequency" class="hide"></td></tr>
+			</div><div>
+				<tr class="toppadding"><td class="title"><u>Isolate Patients:</u></td><td>
+				<label class="switch"><input type="checkbox" id="isolation" onclick="isolation()"><span class="slider round"></span></label></td></td></tr>
+				<tr><td colspan="2" class="subtitle toppadding hide" id="isolationSpeed1">Rate of Isolation:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" min="0" max="9" value="5" id="isolationSpeed" class="hide"></td></tr>
+				<tr><td colspan="2" class="subtitle toppadding hide" id="asymptomatic1">Asymptomatic %:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" min="0" max="10" value="2" id="asymptomatic" class="hide"></td></tr>
+			</div><div>
+				<tr><td class="title"><u>Social Distance:</u></td>
+				<td><label class="switch"><input type="checkbox" id="socialDistance" class="hide"><span class="slider round"></span></label></td></td></tr>
+			</div><div>
+				<tr><td class="title"><u>Multiple Cities:</u></td>
+				<td><label class="switch"><input type="checkbox" id="city" onclick="city()"><span class="slider round"></span></label></td></td></tr>
+				<tr><td colspan="2" class="subtitle toppadding hide" id="intercitymovement1">Rate of Travel:</td></tr>
+				<tr><td class="subtitle" colspan="2"><input type="range" min="0" max="10" value="6" id="intercitymovement" class="hide"></td></tr>
+				<tr><td id="cityCentral" class="subtitle hide">Central City:</td>
+				<td id="cityCentral1" class="hide"><label class="switch"><input type="checkbox" id="centralCity"><span class="slider round"></span></label></td></td></tr>
+			</div>
+		</table>
+		<table class="startPanel">
+			<tr><td><button onclick="start()" id="start"><div id="btn"><span class="noselect">Start Simulation &#x23ED</span><div id="slidingBar"></div></div></button></td></tr>
+			<tr><td><button onclick="setDefault()" id="default"><div id="btn"><span class="noselect">Reset Parameters &#x2B6E</span><div id="slidingBar"></div></div></button></td></tr>
+			<tr><td><button onclick="gameMode()" id="gamemode"><div id="btn"><span class="noselect" id="sandbox">Change Gamemode &#x1F3B2</span><div id="slidingBar"></div></div></button></td></tr>
+			<tr><td><div class="scoreMultiplier" id="box"><span id="scoreMultiplier"><p>Gamemode: Sandbox</p><p>Score Multiplier: None</p></span></div></td></tr>
+		</table>
+		<div class="instructions" id="instructions">
+			<h1>Instructions: &#x1F4D1</h1>
+			<div class="P">This is a epidemic simulator with various parameter settings. Every setting will return a different outcome on how many and how fast the population will be infected. Please feel free to test out your combination and try to find a way to keep as many people healthy until the end.</div>
+			<div class="borderArea">
+				<h3>Controls: &#x1F3AE</h3>
+				<div class="P">Parameters can be toggled by simply clicking on them. Some unclear terms are defined below:</div>
+				<table class="termDefinition">
+					<tr><td class="setWidth"><i>Central Location</i>:</td>
+					<td>A central market that the population visits.</td></tr>
+					<tr><td class="setWidth"><i>Multiple Cities</i>:</td>
+					<td>9 cities that the population would move around at a certain speed.</td></tr>
+					<tr><td class="setWidth"><i>Central City</i>:</td>
+					<td>The population is greater near the center and smaller near the edge. People are more likely to visit the central city.</td></tr>
+				</table>
+				<div class="P">&#xFF0A Spacebar will pause the simulation, and clicking again will unpause this.</div>
+			</div>
+			<div class="borderArea">
+				<h3>Gamemodes: &#x1F3AF</h3>
+				<div class="P">There are two gamemodes, <i>sandbox</i> and <i>highscore</i>.</div>
+				<div class="subP"><b>Sandbox:</b> All paramters are open to use. Most of the parameters can be toggled midway (eg. Isolating Patients). Only initial parameters such as population can not be toggled.</div>
+				<div class="subP"><b>Highscore:</b> All parameters are open to use. No parameters can be toggled midway. The score is determined by the score multiplier x healthy population at the end.</div>
+				<div class="subP">Settings that increase the difficutly of eradicating the virus (eg. adding a central market) increases the score multiplier, while settings like isolating patients decrease it. The goal is to get the highest score possible. The score is essentially how effective limited resources are being used while keeping everyone alive.</div>
+			</div>
+			<div class="P">Enjoy the simulation! If you have any questions please contact me via discord @monyu_04 (#5244).</div>
+		</div>
+	</div>
+	<script>
+		disableButton();
+	</script>
+</body>
+</html>
