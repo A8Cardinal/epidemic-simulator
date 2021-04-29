@@ -1,7 +1,10 @@
-Thank you for downloading my COVID simulation package! This is an epidemic simulator created to understand the dangers of COVID-19.
+This is an epidemic simulator intended for users to understand the dangers of COVID-19.
 Different settings in the parameters lead to different results in how fast and how many of the population gets infected. A highscore gamemode is available for users to set a specific parameter to aim for the most effective way to keep everyone safe with limited resources.
 
-Certain settings/combination of settings take the computer a longer time to process. As such, enabling multiple options at the same time is not recommended. If doing so, please change line 333 in chocolate.js to window.setTimout(repeat,100) (a larger number gives the computer a longer time to process).
+Certain settings/combination of settings take the computer a longer time to process. As such, enabling multiple options at the same time is not recommended. If doing so, please change line 331 in chocolate.js to window.setTimout(repeat,100) (a larger number gives the computer a longer time to process).
+
+You can see a video outlining the project here:
+https://www.youtube.com/watch?v=lo5r61fqXeo
 
 Languages:
 ・HTML 
