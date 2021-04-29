@@ -301,9 +301,9 @@ function repeat() {
 			socialDistance=0
 		};
 		//main functions
-		animation();
 		centralLocation();
 		motion();
+		animation();
 		quarantine();
 		infectionCheck();
 		graph();
@@ -314,13 +314,11 @@ function repeat() {
 		cBack.beginPath();
 		cBack.fillStyle="White"
 		cBack.font='30px georgia serif'
-		cBack.fillText("# of Active Cases = "+(population-infectionRecord[time-1][0]-infectionRecord[time-1][2]),940,540)
+		cBack.fillText("# of Active Cases = "+(population-infectionRecord[time-1][0]-infectionRecord[time-1][2]),940,550)
 		if (gamemode==1) {cBack.fillText("Score: "+gameSettings*infectionRecord[time-1][0],940,690)}
-		cBack.font='italic 30px georgia serif'
-		cBack.fillText("R"+'\u2080'+" = ",940,650)
 		cBack.font='20px georgia serif'
-		cBack.fillText("# of Closed Cases = "+infectionRecord[time-1][2],940,580)
-		cBack.fillText("# of Healthy Population = "+infectionRecord[time-1][0],940,605)
+		cBack.fillText("# of Closed Cases = "+infectionRecord[time-1][2],940,600)
+		cBack.fillText("# of Healthy Population = "+infectionRecord[time-1][0],940,625)
 		cBack.beginPath();
 		cBack.fillStyle="#EC4444"
 		cBack.fillText("Quarantine Zone",720,490)
@@ -730,7 +728,7 @@ function centralLocation() {
 function quarantine() {
 	if (patientIsolation==1) {
 		for (i=0; i<population; i++) {
-			if (particleSIR[i]==1 && particleILifeSpan[i]<220 && particleIsolation[i]==0 && particleInterCity[i]==0 && quarantineCounter==0 && particleInterCity[i]==0) {
+			if (particleSIR[i]==1 && particleILifeSpan[i]<220 && particleIsolation[i]==0 && particleInterCity[i]==0 && quarantineCounter==0 && particleCentralLocation[i]==0) {
 				particleIsolation[i]=10
 				quarantineCounter=isolationSpeed-10;
 				particleCentralLocation[i]=0
